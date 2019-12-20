@@ -36,6 +36,26 @@ public class QuakeSortInPlace {
         
     }
 
+    public int getLargestDepth(ArrayList<QuakeEntry> quakeData, int from) {
+        int deepestIndex = from;
+        for (int i = from+1; i < quakeData.size(); i++) {
+            if (quakeData.get(i).getDepth() < quakeData.get(deepestIndex).getDepth()) {
+                deepestIndex = i;
+            }
+        }
+        return deepestIndex;
+    }
+
+    public void sortByLargestDepth(ArrayList<QuakeEntry> in) {
+        for (int i = 0; i < in.size(); i++) {
+            int maxIndex = getLargestDepth(in, i);
+            QuakeEntry qi = in.get(i);
+            QuakeEntry qmin = in.get(maxIndex);
+            in.set(i,qmin);
+            in.set(maxIndex,qi);
+        }
+    }
+
     public void testSort() {
         EarthQuakeParser parser = new EarthQuakeParser(); 
         //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
@@ -43,12 +63,19 @@ public class QuakeSortInPlace {
         //String source = "data/nov20quakedata.atom";
         ArrayList<QuakeEntry> list  = parser.read(source);  
        
-        System.out.println("read data for "+list.size()+" quakes");    
+        System.out.println("read data for "+list.size()+" quakes");
+        /*
         sortByMagnitude(list);
         for (QuakeEntry qe: list) { 
             System.out.println(qe);
-        } 
-        
+        }
+
+         */
+
+        sortByLargestDepth(list);
+        for (QuakeEntry qe: list) {
+            System.out.println(qe);
+        }
     }
     
     public void createCSV() {
@@ -72,4 +99,9 @@ public class QuakeSortInPlace {
 	    }
 		
 	}
+
+    public static void main(String[] args) {
+        QuakeSortInPlace sort = new QuakeSortInPlace();
+        sort.testSort();
+    }
 }
