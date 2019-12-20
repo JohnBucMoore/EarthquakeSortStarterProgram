@@ -56,6 +56,17 @@ public class QuakeSortInPlace {
         }
     }
 
+    public void onePassBubbleSort(ArrayList<QuakeEntry> quakeData, int numSorted) {
+        for (int i = 1; i < (quakeData.size() - numSorted); i++) {
+            if (quakeData.get(i-1).getMagnitude() > quakeData.get(i).getMagnitude()) {
+                QuakeEntry qi = quakeData.get(i);
+                QuakeEntry qprev = quakeData.get(i-1);
+                quakeData.set(i,qprev);
+                quakeData.set(i-1,qi);
+            }
+        }
+    }
+
     public void testSort() {
         EarthQuakeParser parser = new EarthQuakeParser(); 
         //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
@@ -72,7 +83,12 @@ public class QuakeSortInPlace {
 
          */
 
-        sortByLargestDepth(list);
+        //sortByLargestDepth(list);
+        for (QuakeEntry qe: list) {
+            System.out.println(qe);
+        }
+        System.out.println("\n");
+        onePassBubbleSort(list, 0);
         for (QuakeEntry qe: list) {
             System.out.println(qe);
         }
