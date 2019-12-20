@@ -115,6 +115,21 @@ public class QuakeSortInPlace {
         System.out.println("It took "+numberOfPasses+" passes to sort this array");
     }
 
+    public void sortByMagnitudeWithCheck(ArrayList<QuakeEntry> in) {
+        int numberOfPasses = 0;
+        for (int i=0; i< in.size(); i++) {
+            if (!checkInSortedOrder(in)) {
+                int minIdx = getSmallestMagnitude(in, i);
+                QuakeEntry qi = in.get(i);
+                QuakeEntry qmin = in.get(minIdx);
+                in.set(i, qmin);
+                in.set(minIdx, qi);
+                numberOfPasses = i+1;
+            }
+        }
+        System.out.println("It took "+numberOfPasses+" passes to sort this array");
+    }
+
     public void testSort() {
         EarthQuakeParser parser = new EarthQuakeParser(); 
         //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
@@ -147,8 +162,13 @@ public class QuakeSortInPlace {
             System.out.println(qe);
         }
 
-         */
         sortByMagnitudeWithBubbleSortWithCheck(list);
+        for (QuakeEntry qe: list) {
+            System.out.println(qe);
+        }
+
+         */
+        sortByMagnitudeWithCheck(list);
         for (QuakeEntry qe: list) {
             System.out.println(qe);
         }
